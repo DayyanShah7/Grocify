@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "903602607930",
+    "project_id": "grocify-80ad6",
+    "storage_bucket": "grocify-80ad6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903602607930:android:dff63ce3b994bdef452203",
+        "android_client_info": {
+          "package_name": "com.dayyan.firstapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWTeRkbAhxlN00wtJdgsQmmn7Xmdpka8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
