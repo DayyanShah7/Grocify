@@ -12,7 +12,20 @@
           "package_name": "com.dayyan.firstapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "903602607930-h6tg0hug3hdf3ffn588sfaeu33no3gda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dayyan.firstapp",
+            "certificate_hash": "6df55981a17deebfb516b20dcd51bdb7c5fd4adb"
+          }
+        },
+        {
+          "client_id": "903602607930-48b740mm1jfj31ahncha7mdd5351dchd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBWTeRkbAhxlN00wtJdgsQmmn7Xmdpka8c"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903602607930-48b740mm1jfj31ahncha7mdd5351dchd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
