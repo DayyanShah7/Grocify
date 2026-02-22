@@ -246,7 +246,7 @@ class AccountServiceImpl @Inject constructor(
     private fun generateNonce(): String {
         val rawNonce = UUID.randomUUID().toString()
         val digest = MessageDigest.getInstance(SHA_256_ALGORITHM).digest(rawNonce.toByteArray())
-        return digest.joinToString("") { HEX_FORMAT.format(it) }
+        return digest.joinToString("") { HEX_FORMAT.format(it.toInt() and 0xff) }
     }
 
     private suspend fun signInWithGoogleIdToken(idToken: String): AuthResult<User> {
