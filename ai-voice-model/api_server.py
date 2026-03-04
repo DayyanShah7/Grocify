@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 
-# Load trained model once
+# Load trained model once when server starts
 model = joblib.load("intent_model.pkl")
 
 @app.route("/predict", methods=["POST"])
@@ -33,7 +33,7 @@ def predict():
 
         features = np.concatenate([mfcc_mean, mfcc_std]).reshape(1, -1)
 
-        # Predict
+        # Predict intent
         prediction = model.predict(features)[0]
 
     except Exception as e:
@@ -46,4 +46,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="127.0.0.1", port=8000)
