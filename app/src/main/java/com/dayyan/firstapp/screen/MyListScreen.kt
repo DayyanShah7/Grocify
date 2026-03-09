@@ -1,34 +1,24 @@
-package com.dayyan.firstapp
+package com.dayyan.firstapp.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dayyan.firstapp.R
 import com.dayyan.firstapp.ui.theme.FirstAppTheme
 
 @Composable
@@ -39,11 +29,11 @@ fun MyListScreen(
 ) {
     val items = listOf(
         GroceryListItemData(
-            title = stringResource(R.string.grocery_list_title),
-            subtitle = stringResource(R.string.grocery_list_desc)
+            title = "Grocery List",
+            subtitle = "buy before friday"
         ),
         GroceryListItemData(
-            title = stringResource(R.string.home_list_title),
+            title = "Home",
             subtitle = null
         )
     )
@@ -58,38 +48,47 @@ fun MyListScreen(
                 .padding(horizontal = 24.dp, vertical = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = stringResource(R.string.my_list),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
+                    text = "MY LIST",
+                    fontSize = 24.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Normal,
                     color = Color(0xFF5D5D5B),
-                    modifier = Modifier.weight(1f),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    modifier = Modifier.weight(2f),
+                    textAlign = TextAlign.Center
                 )
                 Text(
-                    text = stringResource(R.string.edit),
-                    fontSize = 18.sp,
+                    text = "EDIT",
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily.Serif,
                     color = Color(0xFF5D5D5B),
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    textAlign = TextAlign.End
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
+            // List
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(items) { item ->
                     GroceryListItem(data = item)
                 }
 
                 item {
+                    Spacer(modifier = Modifier.height(16.dp))
                     NewListButton(onClick = onNewListClicked)
                 }
             }
@@ -108,24 +107,31 @@ fun GroceryListItem(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth(0.95f)
+            .height(140.dp),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFFFF2E1) // Slightly darker cream
         )
     ) {
         Column(
-            modifier = Modifier.padding(24.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = data.title,
-                fontSize = 24.sp,
+                fontSize = 28.sp,
+                fontFamily = FontFamily.Serif,
                 color = Color(0xFF5D5D5B)
             )
             data.subtitle?.let {
                 Text(
                     text = it,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily.Serif,
                     color = Color(0xFF5D5D5B)
                 )
             }
@@ -137,7 +143,7 @@ fun GroceryListItem(
                     modifier = Modifier.size(32.dp),
                     tint = Color.Unspecified
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(12.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_person_add),
                     contentDescription = null,
@@ -155,23 +161,24 @@ fun NewListButton(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(30.dp),
+        modifier = modifier
+            .fillMaxWidth(0.7f)
+            .height(56.dp),
+        shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFFFF2E1)
+            containerColor = Color(0xFFECECEC) // Light gray button background
         ),
-        onClick = onClick
+        onClick = onClick,
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Surface(
                 shape = CircleShape,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF5D5D5B)),
+                border = BorderStroke(1.dp, Color(0xFF5D5D5B)),
                 color = Color.Transparent,
                 modifier = Modifier.size(24.dp)
             ) {
@@ -184,8 +191,9 @@ fun NewListButton(
             }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = stringResource(R.string.new_list),
+                text = "New List",
                 fontSize = 20.sp,
+                fontFamily = FontFamily.Serif,
                 color = Color(0xFF5D5D5B)
             )
         }
