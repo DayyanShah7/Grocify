@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FirstApp</string>
-    <string name="grocery_list_title" />
-    <string name="grocery_list_desc" />
-    <string name="home_list_title" />
-    <string name="my_list" />
-    <string name="edit" />
-    <string name="new_list" />
+    <string name="my_list">MY LIST</string>
+    <string name="edit">EDIT</string>
+    <string name="new_list">New List</string>
+    <string name="grocery_list_title">Grocry List</string>
+    <string name="grocery_list_desc">buy before friday</string>
+    <string name="home_list_title">Home</string>
 </resources>
