@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dayyan.firstapp.adapter.GroceryAdapter
 import com.dayyan.firstapp.model.GroceryList
 
-class HomeActivity : AppCompatActivity() {
+// Renamed to avoid redeclaration conflict with the Compose version in com/dayyan/firstapp/HomeActivity.kt
+class HomeActivityOld : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
