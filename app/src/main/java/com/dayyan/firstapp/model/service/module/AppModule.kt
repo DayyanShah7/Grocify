@@ -3,7 +3,10 @@
 package com.dayyan.firstapp.model.service.module
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.credentials.CredentialManager
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.dayyan.firstapp.model.service.AccountService
 import com.dayyan.firstapp.model.service.impl.AccountServiceImpl
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +19,8 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import java.io.IOException
+import java.security.GeneralSecurityException
 import javax.inject.Singleton
 
 @Module
@@ -70,5 +75,49 @@ abstract class AppModule {
         @ApplicationScope
         fun provideApplicationScope(): CoroutineScope =
             CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+        /**
+         * Provides the [EncryptedSharedPreferences] instance that backs
+         * [com.dayyan.firstapp.model.security.DatabasePassphraseManager].
+         *
+         * Separated from [DatabasePassphraseManager] so that tests can inject
+         * a fake [SharedPreferences] without touching the AndroidKeyStore,
+         * making all branches of [DatabasePassphraseManager] testable.
+         *
+         * Error handling:
+         * - [GeneralSecurityException] — KeyStore key invalidated (e.g. screen lock
+         *   change on some devices). Clears corrupted prefs so the app can recover
+         *   on next launch instead of being permanently bricked.
+         * - [IOException] — filesystem-level failure reading/writing the prefs file.
+         */
+        @Provides
+        @Singleton
+        @EncryptedPrefs
+        fun provideEncryptedPrefs(
+            @ApplicationContext context: Context
+        ): SharedPreferences {
+            return try {
+                val masterKey = MasterKey.Builder(context)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build()
+
+                EncryptedSharedPreferences.create(
+                    context,
+                    PREF_FILE,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                )
+            } catch (e: GeneralSecurityException) {
+                // Keystore key may have been invalidated — clear corrupted prefs
+                // so the app can recover on next launch instead of being permanently bricked
+                context.deleteSharedPreferences(PREF_FILE)
+                throw IllegalStateException("Keystore error — prefs cleared, please restart the app.", e)
+            } catch (e: IOException) {
+                throw IllegalStateException("Failed to initialize encrypted preferences — IO error.", e)
+            }
+        }
+
+        private const val PREF_FILE = "secure_db_prefs"
     }
 }
